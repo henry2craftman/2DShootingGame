@@ -15,6 +15,11 @@ using UnityEngine;
 // 목표5: 적도 플레이어를 향해 특정 시간에 한번씩 총을 쏜다.
 // 필요속성: 총알, 특정 시간
 
+// 목표6: 충돌시 폭발 효과를 생성한다.
+// 필요속성: 폭발효과 게임오브젝트
+
+// 목표7: 충돌시 hp가 감소한다.
+// 필요속성: hp
 public class Enemy : MonoBehaviour
 {
     public float speed = 1.0f;
@@ -22,8 +27,15 @@ public class Enemy : MonoBehaviour
     int randValue;
     GameObject player;
 
+
     // 필요속성: 플레이어의 방향
     Vector3 playerDir;
+
+    // 필요속성: 폭발효과 게임오브젝트
+    public GameObject explosionEff;
+
+    // 필요속성: hp
+    int hp = 3;
 
     private void Start()
     {
@@ -62,11 +74,37 @@ public class Enemy : MonoBehaviour
     // 충돌 순간 실행
     private void OnCollisionEnter(Collision otherObject)
     {
-        // 나를 파괴한다.
-        Destroy(gameObject);
+        hp--;
 
-        // 부딪힌 상대를 파괴한다.
-        Destroy(otherObject.gameObject);
+        if(otherObject.gameObject.tag == "Player")
+        {
+            player.GetComponent<PlayerMove>().hp--;
+
+            if (player.GetComponent<PlayerMove>().hp < 0)
+            {
+                // 부딪힌 상대를 파괴한다.
+                Destroy(otherObject.gameObject);
+            }
+
+            // 나를 파괴한다.
+            Destroy(gameObject);
+
+            // 목표6: 충돌시 폭발 효과를 생성한다.
+            GameObject explosionGO = Instantiate(explosionEff);
+            explosionGO.transform.position = gameObject.transform.position;
+        }
+        else if (hp < 0)
+        {
+            // 나를 파괴한다.
+            Destroy(gameObject);
+
+            // 부딪힌 상대를 파괴한다.
+            Destroy(otherObject.gameObject);
+
+            // 목표6: 충돌시 폭발 효과를 생성한다.
+            GameObject explosionGO = Instantiate(explosionEff);
+            explosionGO.transform.position = gameObject.transform.position;
+        }
     }
 
     // 충돌 중 실행

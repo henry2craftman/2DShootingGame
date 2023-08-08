@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     public float speed = 5;
+    public int hp = 100;
 
     // Update is called once per frame
     void Update()

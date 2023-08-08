@@ -13,6 +13,7 @@ public class PlayerFire : MonoBehaviour
     public GameObject bullet;
     public GameObject gunPos;
     public int skillLevel = 0;
+    public int degree = 15;
 
     // Update is called once per frame
     void Update()
@@ -36,6 +37,9 @@ public class PlayerFire : MonoBehaviour
                 break;
             case 2:
                 ExcuteSkill2();
+                break;
+            case 3:
+                ExcuteSkill3(degree);
                 break;
         }
 
@@ -84,7 +88,24 @@ public class PlayerFire : MonoBehaviour
             bulletGO3.transform.position = gunPos.transform.position + new Vector3(0.3f, 0, 0);
             bulletGO3.transform.rotation = Quaternion.Euler(0, 0, -30);
             bulletGO3.GetComponent<Bullet>().dir = bulletGO3.transform.up;
+        }
 
+        
+        // 15도 간격마다 총 24개의 총알을 360도 발사한다.
+        void ExcuteSkill3(int _degree)
+        {
+            int numOfBullet = 360 / degree;
+
+            for (int i = 0; i < numOfBullet; i++)
+            {
+                // 순서2: 총알을 만들고 싶다.
+                GameObject bulletGO = Instantiate(bullet);
+
+                // 순서3: 총알의 위치를 플레이어의 위치로 정해주고 싶다.
+                bulletGO.transform.position = gunPos.transform.position;
+                bulletGO.transform.rotation = Quaternion.Euler(0, 0, i * degree);
+                bulletGO.GetComponent<Bullet>().dir = bulletGO.transform.up;
+            }
         }
     }
 
