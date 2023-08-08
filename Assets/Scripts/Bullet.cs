@@ -19,12 +19,15 @@ public class Bullet : MonoBehaviour
         transform.position += dir * speed * Time.deltaTime;
     }
 
-    //private void OnCollisionEnter(Collision otherObject)
-    //{
-    //    // ³ª¸¦ ÆÄ±«ÇÑ´Ù.
-    //    Destroy(gameObject);
+    private void OnCollisionEnter(Collision otherObject)
+    {
+        if(otherObject.gameObject.tag == "Player")
+        {
+            // ³ª¸¦ ÆÄ±«ÇÑ´Ù.
+            Destroy(gameObject);
 
-    //    // ºÎµúÈù »ó´ë¸¦ ÆÄ±«ÇÑ´Ù.
-    //    Destroy(otherObject.gameObject);
-    //}
+            // ºÎµúÈù »ó´ë¸¦ ÆÄ±«ÇÑ´Ù.
+            Destroy(otherObject.gameObject);
+        }
+    }
 }
