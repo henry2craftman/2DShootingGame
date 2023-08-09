@@ -433,8 +433,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillItem: {fileID: 8266678907777293015, guid: 69a94c71b80f4db469594243cd2716a7, type: 3}
-  minCreateTime: 10
-  maxCreateTime: 20
+  minCreateTime: 2
+  maxCreateTime: 5
 --- !u!4 &105024435
 Transform:
   m_ObjectHideFlags: 0
@@ -698,7 +698,7 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.2
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 0.2
@@ -784,7 +784,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 842001931257212421, guid: 7e8208df452c7854687595b2ca69c90c, type: 3}
-  minTime: 5
+  minTime: 3
   maxTime: 8
 --- !u!4 &738783966
 Transform:
@@ -1111,8 +1111,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 842001931257212421, guid: 7e8208df452c7854687595b2ca69c90c, type: 3}
-  minTime: 1
-  maxTime: 3
+  minTime: 5
+  maxTime: 10
 --- !u!4 &853462370
 Transform:
   m_ObjectHideFlags: 0
@@ -1144,7 +1144,7 @@ GameObject:
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &952518109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1359,7 +1359,7 @@ GameObject:
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1118774457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1722,7 +1722,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1403239863
 Transform:
   m_ObjectHideFlags: 0
@@ -2397,12 +2397,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bgmAudioSource: {fileID: 1785565782}
   effAudioSource: {fileID: 1785565781}
-  bgmAudioClips: []
-  explosionAudioClips: []
+  bgmAudioClips:
+  - {fileID: 8300000, guid: 5d2b065c40066914d8be89f60a787f21, type: 3}
+  - {fileID: 8300000, guid: 6eeb80eea90e52f4ca52bab74c991970, type: 3}
+  explosionAudioClips:
+  - {fileID: 8300000, guid: 6a81ca39e09d6664f98792766a5ffb74, type: 3}
+  - {fileID: 8300000, guid: f91abed3a538a2a4dbc1675a85313ceb, type: 3}
+  - {fileID: 8300000, guid: 80ca4773e2027024aa5386b4278b65aa, type: 3}
   itemAudioClips:
   - {fileID: 8300000, guid: 9158afb6966d445db9caf1dccf7acbcc, type: 3}
   - {fileID: 8300000, guid: eb5685b26a6494994af389a3293064e8, type: 3}
   - {fileID: 8300000, guid: e0c70bed5c1a4443083a81de5648c7d5, type: 3}
+  fireAudioClips:
+  - {fileID: 8300000, guid: 4031e628cfc564d93ac39f8955afbbda, type: 3}
 --- !u!4 &1785565784
 Transform:
   m_ObjectHideFlags: 0
@@ -2463,8 +2470,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 842001931257212421, guid: 7e8208df452c7854687595b2ca69c90c, type: 3}
-  minTime: 1
-  maxTime: 3
+  minTime: 3
+  maxTime: 8
 --- !u!1001 &2791018954273658188
 PrefabInstance:
   m_ObjectHideFlags: 0

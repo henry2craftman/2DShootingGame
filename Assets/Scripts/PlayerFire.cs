@@ -12,12 +12,22 @@ using UnityEngine;
 // 단계2. 스킬레벨이 1 올라간다.
 // 단계3. 아이템을 파괴한다.
 // 단계4. 아이템 이펙트를 생성한다.
+// 단계5. 발사시 SoundManger의 AudioSource를 재생한다.
+// 속성: SoundManager
 public class PlayerFire : MonoBehaviour
 {
     public GameObject bullet;
     public GameObject gunPos;
     public int skillLevel = 0;
     public int degree = 15;
+
+    // 속성: SoundManager
+    SoundManager soundManager;
+
+    private void Start()
+    {
+        soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
+    }
 
     // Update is called once per frame
     void Update()
@@ -46,6 +56,10 @@ public class PlayerFire : MonoBehaviour
                 ExcuteSkill3(degree);
                 break;
         }
+
+        // 단계5. 발사시 SoundManger의 AudioSource를 재생한다.
+        soundManager.effAudioSource.clip = soundManager.fireAudioClips[0];
+        soundManager.effAudioSource.Play();
 
         // 한개의 총알이 발사된다.
         void ExcuteSkill0()

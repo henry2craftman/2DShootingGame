@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static SoundManager;
 
 // 목표: 아래 방향으로 이동한다.
 
@@ -26,13 +27,14 @@ using UnityEngine;
 // 필요속성: 게임매니저
 // 목표9: 피격시 게임메니저의 destroyScore를 100올려준다.
 // 목표10: 플레이어 파괴시 최고 점수를 플팻폼 레지스트리에 저장한다.
+// 목표11: 피격시 피격 soundEff를 실행한다.
+// 필요속성: 사운드매니저
 public class Enemy : MonoBehaviour
 {
     public float speed = 1.0f;
     public Vector3 dir = Vector3.down;
     int randValue;
     GameObject player;
-
 
     // 필요속성: 플레이어의 방향
     Vector3 playerDir;
@@ -45,6 +47,9 @@ public class Enemy : MonoBehaviour
 
     // 필요속성: 게임매니저
     GameManager gameManager;
+
+    // 필요속성: 사운드매니저
+    SoundManager soundManager;
 
     private void Start()
     {
@@ -60,9 +65,10 @@ public class Enemy : MonoBehaviour
                 //dir.Normalize();
             }
         }
-
         // 순서1. 시작시 게임매니저를 불러온다.
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+
+        soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
     }
 
     // 목표: 아래 방향으로 이동한다.
@@ -76,7 +82,6 @@ public class Enemy : MonoBehaviour
                 playerDir = (player.transform.position - gameObject.transform.position).normalized;
                 dir = playerDir;
             }
-            
         }
 
         transform.position += dir * speed * Time.deltaTime;
@@ -103,12 +108,17 @@ public class Enemy : MonoBehaviour
                 gameManager.bestScore = gameManager.attackScore + gameManager.destroyScore;
                 gameManager.bestScoreTxt.text = gameManager.bestScore.ToString();
 
-                // 목표10: 플레이어 파괴시 최고 점수를 플팻폼 레지스트리에 저장한다.
-                PlayerPrefs.SetInt("Best Score", gameManager.bestScore);
-            }
+                // 목표10: 플레이어 파괴시 최고 점수라면 최고점수를 플팻폼 레지스트리에 저장한다.
+                int bestScore = PlayerPrefs.GetInt("Best Score");
+                if (gameManager.bestScore > bestScore)
+                {
+                    PlayerPrefs.SetInt("Best Score", gameManager.bestScore);
+                }
 
-            // 나를 파괴한다.
-            Destroy(gameObject);
+                // 목표11: 피격시 피격 soundEff를 실행한다.
+                soundManager.effAudioSource.clip = soundManager.bgmAudioClips[0];
+                soundManager.effAudioSource.Play();
+            }
 
             // 목표6: 충돌시 폭발 효과를 생성한다.
             GameObject explosionGO = Instantiate(explosionEff);
@@ -117,18 +127,29 @@ public class Enemy : MonoBehaviour
             // 목표9: 피격시 게임메니저의 destroyScore를 100올려준다.
             gameManager.destroyScore += 100;
             gameManager.destroyScoreTxt.text = gameManager.destroyScore.ToString();
+
+            // 나를 파괴한다.
+            Destroy(gameObject);
         }
         else if (hp < 0)
         {
+            // 목표6: 충돌시 폭발 효과를 생성한다.
+            GameObject explosionGO = Instantiate(explosionEff);
+            explosionGO.transform.position = gameObject.transform.position;
+
+            // 목표11: 피격시 피격 soundEff를 실행한다.
+            soundManager.effAudioSource.clip = soundManager.bgmAudioClips[1];
+            soundManager.effAudioSource.Play();
+
+            // 목표9: 피격시 게임메니저의 destroyScore를 100올려준다.
+            gameManager.destroyScore += 100;
+            gameManager.destroyScoreTxt.text = gameManager.destroyScore.ToString();
+
             // 나를 파괴한다.
             Destroy(gameObject);
 
             // 부딪힌 상대를 파괴한다.
             Destroy(otherObject.gameObject);
-
-            // 목표6: 충돌시 폭발 효과를 생성한다.
-            GameObject explosionGO = Instantiate(explosionEff);
-            explosionGO.transform.position = gameObject.transform.position;
         }
     }
 
