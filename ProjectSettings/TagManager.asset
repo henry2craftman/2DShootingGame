@@ -8,6 +8,7 @@ TagManager:
   - EnemyBullet
   - DestroyZone
   - PlayerBullet
+  - Item
   layers:
   - Default
   - TransparentFX

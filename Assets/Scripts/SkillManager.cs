@@ -19,6 +19,7 @@ public class SkillManager : MonoBehaviour
     public float maxCreateTime = 10;
     float currentTime;
 
+
     private void Start()
     {
         createTime = UnityEngine.Random.Range(minCreateTime, maxCreateTime);

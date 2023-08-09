@@ -114,22 +114,17 @@ public class PlayerFire : MonoBehaviour
     }
 
     // 목표2: 아이템을 먹었다면, 스킬 레벨이 올라간다.
-
-
     private void OnTriggerEnter(Collider other)
     {
         // 단계1. 아이템을 먹었다면
         if (other.gameObject.tag == "Item")
         {
-            // 단계2. 스킬레벨이 1 올라간다.
-            skillLevel++;
+            // 단계2. 스킬레벨이 1 올라간다.(최대 스킬레벨을 초과하기 전까지)
+            if(skillLevel < 3)
+                skillLevel++;
 
             // 단계3. 아이템을 파괴한다.
             Destroy(other.gameObject);
-            
-            // 단계4. 아이템 이펙트를 생성한다.
-
-
         }
     }
 }
