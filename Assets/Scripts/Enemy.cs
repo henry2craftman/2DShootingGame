@@ -20,6 +20,12 @@ using UnityEngine;
 
 // 목표7: 충돌시 hp가 감소한다.
 // 필요속성: hp
+
+// 목표8: 피격시 게임메니저의 attackScore를 10올려준다.
+// 순서1. 시작시 게임매니저를 불러온다.
+// 필요속성: 게임매니저
+// 목표9: 피격시 게임메니저의 destroyScore를 100올려준다.
+// 목표10: 플레이어 파괴시 최고 점수를 플팻폼 레지스트리에 저장한다.
 public class Enemy : MonoBehaviour
 {
     public float speed = 1.0f;
@@ -37,6 +43,9 @@ public class Enemy : MonoBehaviour
     // 필요속성: hp
     int hp = 3;
 
+    // 필요속성: 게임매니저
+    GameManager gameManager;
+
     private void Start()
     {
         // 필요속성: 30%의 확률
@@ -51,6 +60,9 @@ public class Enemy : MonoBehaviour
                 //dir.Normalize();
             }
         }
+
+        // 순서1. 시작시 게임매니저를 불러온다.
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     // 목표: 아래 방향으로 이동한다.
@@ -75,8 +87,11 @@ public class Enemy : MonoBehaviour
     private void OnCollisionEnter(Collision otherObject)
     {
         hp--;
+        // 목표8: 피격시 게임메니저의 attackScore를 10올려준다.
+        gameManager.attackScore += 10;
+        gameManager.attackScoreTxt.text = gameManager.attackScore.ToString();
 
-        if(otherObject.gameObject.tag == "Player")
+        if (otherObject.gameObject.tag == "Player")
         {
             player.GetComponent<PlayerMove>().hp--;
 
@@ -84,6 +99,12 @@ public class Enemy : MonoBehaviour
             {
                 // 부딪힌 상대를 파괴한다.
                 Destroy(otherObject.gameObject);
+
+                gameManager.bestScore = gameManager.attackScore + gameManager.destroyScore;
+                gameManager.bestScoreTxt.text = gameManager.bestScore.ToString();
+
+                // 목표10: 플레이어 파괴시 최고 점수를 플팻폼 레지스트리에 저장한다.
+                PlayerPrefs.SetInt("Best Score", gameManager.bestScore);
             }
 
             // 나를 파괴한다.
@@ -92,6 +113,10 @@ public class Enemy : MonoBehaviour
             // 목표6: 충돌시 폭발 효과를 생성한다.
             GameObject explosionGO = Instantiate(explosionEff);
             explosionGO.transform.position = gameObject.transform.position;
+
+            // 목표9: 피격시 게임메니저의 destroyScore를 100올려준다.
+            gameManager.destroyScore += 100;
+            gameManager.destroyScoreTxt.text = gameManager.destroyScore.ToString();
         }
         else if (hp < 0)
         {

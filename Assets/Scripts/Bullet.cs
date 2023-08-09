@@ -8,6 +8,7 @@ using UnityEngine;
 
 // 목표2: 총을 쏜 주체가 플레이어인지 적인지 확인 후, 발사 방향을 정한다.
 // 목표3: 충돌시 폭발 효과를 생성한다.
+// 목표4: 플레이어 파괴시 최고 점수를 BestScoreUI와 플팻폼 레지스트리에 저장한다.
 public class Bullet : MonoBehaviour
 {
     public float speed = 1.0f;
@@ -34,6 +35,14 @@ public class Bullet : MonoBehaviour
                 {
                     // 부딪힌 상대를 파괴한다.
                     Destroy(otherObject.gameObject);
+
+                    // 목표10: 플레이어 파괴시 최고 점수를 BestScoreUI와 플팻폼 레지스트리에 저장한다.
+                    GameManager gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+
+                    gameManager.bestScore = gameManager.attackScore + gameManager.destroyScore;
+                    gameManager.bestScoreTxt.text = gameManager.bestScore.ToString();
+
+                    PlayerPrefs.SetInt("Best Score", gameManager.bestScore);
                 }
             }
         }
