@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// ¸ñÇ¥: BGM, Æø¹ß »ç¿îµå, ¾ÆÀÌÅÛ È¹µæ »ç¿îµå¸¦ Àç»ýÇÑ´Ù.
-// ÇÊ¿ä¼Ó¼º: BGM, Æø¹ß »ç¿îµå, ¾ÆÀÌÅÛ È¹µæ »ç¿îµå ¿Àµð¿ÀÅ¬¸³
+// ï¿½ï¿½Ç¥: BGM, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¹ï¿½ï¿½ ï¿½ï¿½ï¿½å¸¦ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+// ï¿½Ê¿ï¿½Ó¼ï¿½: BGM, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¹ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Å¬ï¿½ï¿½
 public class SoundManager : MonoBehaviour
 {
     public enum SoundName
@@ -28,5 +28,6 @@ public class SoundManager : MonoBehaviour
     {
         int randBGM = Random.Range(0, bgmAudioClips.Count);
         bgmAudioSource.clip = bgmAudioClips[randBGM];
+        bgmAudioSource.Play();
     }
 }
