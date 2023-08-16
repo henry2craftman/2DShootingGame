@@ -84,7 +84,7 @@ public class Enemy : MonoBehaviour
     {
         hp--;
         // 목표8: 피격시 게임메니저의 attackScore를 10올려준다.
-        GameManager.instance.AttackScore = 10;
+        GameManager.instance.AttackScore += 10;
 
 
         if (otherObject.gameObject.tag == "Player")
@@ -118,6 +118,10 @@ public class Enemy : MonoBehaviour
 
             // 목표9: 피격시 게임메니저의 destroyScore를 100올려준다.
             GameManager.instance.SetDestroyScore();
+
+
+            // Bestscore 갱신
+            GameManager.instance.SetBestScore();
 
 
             // 나를 파괴(비활성화)한다.

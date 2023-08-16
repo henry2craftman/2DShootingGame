@@ -50,7 +50,6 @@ public class PlayerFire : MonoBehaviour
             bulletObjectPool.Add(bulletGO);
 
             bulletGO.SetActive(false);
-            bulletGO.transform.parent = transform;
         }
 
     }
@@ -67,7 +66,7 @@ public class PlayerFire : MonoBehaviour
 
     private void ExcuteSkill(int _skillLevel)
     {
-        switch(_skillLevel)
+        switch (_skillLevel)
         {
             case 0:
                 ExcuteSkill0();
@@ -108,7 +107,7 @@ public class PlayerFire : MonoBehaviour
                     break;
                 }
             }*/
-            if(bulletObjectPool.Count > 0)
+            if (bulletObjectPool.Count > 0)
             {
                 GameObject bulletGO = bulletObjectPool[0];
 
@@ -158,8 +157,8 @@ public class PlayerFire : MonoBehaviour
                     bulletGO1.transform.position = gunPos.transform.position + new Vector3(0.3f, 0, 0);
 
                     break;
-                }*/
-            }
+                }
+            }*/
 
             if (bulletObjectPool.Count > 0)
             {
@@ -213,7 +212,7 @@ public class PlayerFire : MonoBehaviour
             bulletGO3.GetComponent<Bullet>().dir = bulletGO3.transform.up;
         }
 
-        
+
         // 15도 간격마다 총 24개의 총알을 360도 발사한다.
         void ExcuteSkill3(int _degree)
         {
@@ -230,7 +229,7 @@ public class PlayerFire : MonoBehaviour
                 bulletGO.GetComponent<Bullet>().dir = bulletGO.transform.up;
             }
         }
-    
+    }
 
     // 목표2: 아이템을 먹었다면, 스킬 레벨이 올라간다.
     private void OnTriggerEnter(Collider other)

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// ¸ñÇ¥: ÇÃ·¹ÀÌ¾î¸¦ »ç¿ëÀÚ ÀÔ·Â¿¡ µû¶ó ¿òÁ÷ÀÌ°í ½Í´Ù.
+// ëª©í‘œ: í”Œë ˆì´ì–´ë¥¼ ì‚¬ìš©ì ì…ë ¥ì— ë”°ë¼ ì›€ì§ì´ê³  ì‹¶ë‹¤.
 public class PlayerMove : MonoBehaviour
 {
     public float speed = 5;
@@ -19,5 +19,10 @@ public class PlayerMove : MonoBehaviour
         //transform.Translate(dir * speed * Time.deltaTime);
         //transform.position = transform.position + dir * speed * Time.deltaTime;
         transform.position += dir * speed * Time.deltaTime;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.instance.GameOver();
     }
 }
