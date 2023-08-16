@@ -32,7 +32,7 @@ public class SkillManager : MonoBehaviour
 
     // 필요속성: 아이템 오브젝트의 개수, 오브젝트 풀 배열
     public int poolSize = 10;
-    GameObject[] itemObjectPool;
+    public List<GameObject> itemObjectPool;
 
     private void Awake()
     {
@@ -47,7 +47,7 @@ public class SkillManager : MonoBehaviour
         createTime = UnityEngine.Random.Range(minCreateTime, maxCreateTime);
 
         // 순서1. 풀 사이즈 만큼의 배열을 생성한다.
-        itemObjectPool = new GameObject[poolSize];
+        itemObjectPool = new List<GameObject>();
 
         for (int i = 0; i < poolSize; i++)
         {
@@ -55,7 +55,7 @@ public class SkillManager : MonoBehaviour
             GameObject skillItemGO = Instantiate(skillItem);
 
             // 순서3. 생성한 아이템 게임 오브젝트를 풀에 넣는다.
-            itemObjectPool[i] = skillItemGO;
+            itemObjectPool.Add(skillItemGO);
 
             skillItemGO.gameObject.SetActive(false);
 
@@ -76,16 +76,28 @@ public class SkillManager : MonoBehaviour
         {
             // 단계3. 스킬아이템을 생성한다.
             // 목표: 에네미 게임오브젝트 풀에서 에네미 게임오브젝트가 비활성화 되어있다면 활성화 시키겠다.
-            for (int i = 0; i < poolSize; i++)
-            {
-                GameObject itemGO = itemObjectPool[i];
-                if(itemGO.activeSelf == false)
-                {
-                    itemGO.SetActive(true);
+            //for (int i = 0; i < poolSize; i++)
+            //{
+            //    GameObject itemGO = itemObjectPool[i];
+            //    if(itemGO.activeSelf == false)
+            //    {
+            //        itemGO.SetActive(true);
 
-                    // 단계4. 스킬 위치를 스킬매니저의 위치로 설정한다.
-                    itemGO.transform.position = transform.position;
-                }
+            //        // 단계4. 스킬 위치를 스킬매니저의 위치로 설정한다.
+            //        itemGO.transform.position = transform.position;
+            //    }
+            //}
+
+            if(itemObjectPool.Count > 0)
+            {
+                GameObject itemGO = itemObjectPool[0];
+
+                itemGO.SetActive(true);
+
+                // 단계4. 스킬 위치를 스킬매니저의 위치로 설정한다.
+                itemGO.transform.position = transform.position;
+
+                itemObjectPool.Remove(itemGO);
             }
 
             currentTime = 0;

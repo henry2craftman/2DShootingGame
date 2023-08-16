@@ -35,7 +35,7 @@ public class EnemyManager : MonoBehaviour
 
     // 필요속성: 에네미 오브젝트의 개수, 오브젝트 풀 배열
     public int poolSize = 10;
-    GameObject[] enemyObjectPool;
+    List<GameObject> enemyObjectPool;
 
     private void Start()
     {
@@ -43,14 +43,14 @@ public class EnemyManager : MonoBehaviour
 
         // 목표: 에네미 오브젝트 풀을 만들어서 관리하고 싶다.
         // 순서1. 풀 사이즈 만큼의 배열을 생성한다.
-        enemyObjectPool = new GameObject[poolSize];
+        enemyObjectPool = new List<GameObject>();
 
         // 순서2. 에네미 게임 오브젝트를 생성한다.
         for(int i = 0; i < poolSize; i++)
         {
             GameObject enemyGO = Instantiate(enemy);
             // 순서3. 생성한 에네미 게임 오브젝트를 풀에 넣는다.
-            enemyObjectPool[i] = enemyGO;
+            enemyObjectPool.Add(enemyGO);
 
             // 순서4. 게임오브젝트를 비활성화 해준다.
             enemyGO.SetActive(false);
@@ -73,15 +73,25 @@ public class EnemyManager : MonoBehaviour
         {
             // 순서3. 적을 EnemyManager위치에 생성한다.
             // 목표: 에네미 게임오브젝트 풀에서 에네미 게임오브젝트가 비활성화 되어있다면 활성화 시키겠다.
-            for (int i = 0; i < poolSize; i++)
+            //for (int i = 0; i < poolSize; i++)
+            //{
+            //    GameObject enemyGO = enemyObjectPool[i];
+            //    if(enemyGO.activeSelf == false)
+            //    {
+            //        enemyGO.SetActive(true);
+            //        enemyGO.transform.position = gameObject.transform.position;
+            //        break;
+            //    }
+            //}
+
+            if(enemyObjectPool.Count > 0)
             {
-                GameObject enemyGO = enemyObjectPool[i];
-                if(enemyGO.activeSelf == false)
-                {
-                    enemyGO.SetActive(true);
-                    enemyGO.transform.position = gameObject.transform.position;
-                    break;
-                }
+                GameObject enemyGO = enemyObjectPool[0];
+
+                enemyGO.SetActive(true);
+                enemyGO.transform.position = gameObject.transform.position;
+                
+                enemyObjectPool.Remove(enemyGO);
             }
 
             // 순서4. 시간을 초기화 해준다.

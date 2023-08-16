@@ -2,47 +2,47 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// ¸ñÇ¥: ½ºÅ³¾ÆÀÌÅÛÀÌ ¾Æ·¡ ¹æÇâÀ¸·Î Æ¯Á¤¼Óµµ·Î ÀÌµ¿ÇÑ´Ù.
-// ¼Ó¼º: ¾Æ·¡ ¹æÇâ, Æ¯Á¤¼Óµµ
-// ¸ñÇ¥2: ½ºÅ³ÀÌ Á×À» ¶§ ¾ÆÀÌÅÛ ÀÌÆåÆ®¸¦ »ý¼ºÇÑ´Ù.
-// ¼Ó¼º : ¾ÆÀÌÅÛ ÀÌÆåÆ®
-// ¸ñÇ¥3. Æø¹ß½Ã »ç¿îµå ÀÌÆåÆ®¸¦ »ý¼ºÇÑ´Ù.
-// ¼Ó¼º: »ç¿îµå ÀÌÆåÆ® °ÔÀÓ¿ÀºêÁ§Æ®
-// ¼ø¼­1. »ç¿îµå ¸Å´ÏÀú¸¦ ºÒ·¯¿Â´Ù.
-// ¼ø¼­2. »ç¿îµå ¸Å´ÏÀú¿¡¼­ ¿Àµð¿À ¼Ò½ºÀÇ ¿Àµð¿À Å¬¸³À» º¯°æÇØÁØ´Ù.
-// ¼ø¼­3. »ç¿îµå ¸Å´ÏÀúÀÇ ¿Àµð¿À ¼Ò½º¸¦ Àç»ý½ÃÅ²´Ù.
+// ëª©í‘œ: ìŠ¤í‚¬ì•„ì´í…œì´ ì•„ëž˜ ë°©í–¥ìœ¼ë¡œ íŠ¹ì •ì†ë„ë¡œ ì´ë™í•œë‹¤.
+// ì†ì„±: ì•„ëž˜ ë°©í–¥, íŠ¹ì •ì†ë„
+// ëª©í‘œ2: ìŠ¤í‚¬ì´ ì£½ì„ ë•Œ ì•„ì´í…œ ì´íŽ™íŠ¸ë¥¼ ìƒì„±í•œë‹¤.
+// ì†ì„± : ì•„ì´í…œ ì´íŽ™íŠ¸
+// ëª©í‘œ3. í­ë°œì‹œ ì‚¬ìš´ë“œ ì´íŽ™íŠ¸ë¥¼ ìƒì„±í•œë‹¤.
+// ì†ì„±: ì‚¬ìš´ë“œ ì´íŽ™íŠ¸ ê²Œìž„ì˜¤ë¸Œì íŠ¸
+// ìˆœì„œ1. ì‚¬ìš´ë“œ ë§¤ë‹ˆì €ë¥¼ ë¶ˆëŸ¬ì˜¨ë‹¤.
+// ìˆœì„œ2. ì‚¬ìš´ë“œ ë§¤ë‹ˆì €ì—ì„œ ì˜¤ë””ì˜¤ ì†ŒìŠ¤ì˜ ì˜¤ë””ì˜¤ í´ë¦½ì„ ë³€ê²½í•´ì¤€ë‹¤.
+// ìˆœì„œ3. ì‚¬ìš´ë“œ ë§¤ë‹ˆì €ì˜ ì˜¤ë””ì˜¤ ì†ŒìŠ¤ë¥¼ ìž¬ìƒì‹œí‚¨ë‹¤.
 public class SkillItemMove : MonoBehaviour
 {
-    // ¼Ó¼º: ¾Æ·¡ ¹æÇâ, Æ¯Á¤¼Óµµ
+    // ì†ì„±: ì•„ëž˜ ë°©í–¥, íŠ¹ì •ì†ë„
     Vector3 dir = Vector3.down;
     public float speed = 5;
 
-    // ¼Ó¼º : ¾ÆÀÌÅÛ ÀÌÆåÆ®
+    // ì†ì„± : ì•„ì´í…œ ì´íŽ™íŠ¸
     public GameObject itemEffect;
 
     // Update is called once per frame
     void Update()
     {
-        // ¸ñÇ¥: ½ºÅ³¾ÆÀÌÅÛÀÌ ¾Æ·¡ ¹æÇâÀ¸·Î Æ¯Á¤¼Óµµ·Î ÀÌµ¿ÇÑ´Ù.
+        // ëª©í‘œ: ìŠ¤í‚¬ì•„ì´í…œì´ ì•„ëž˜ ë°©í–¥ìœ¼ë¡œ íŠ¹ì •ì†ë„ë¡œ ì´ë™í•œë‹¤.
         transform.position += dir * speed * Time.deltaTime;
     }
 
-    // ¸ñÇ¥2: ½ºÅ³ÀÌ Á×À» ¶§ 
+    // ëª©í‘œ2: ìŠ¤í‚¬ì´ ì£½ì„ ë•Œ 
     private void OnDestroy()
     {
-        // ¾ÆÀÌÅÛ ÀÌÆåÆ®¸¦ »ý¼ºÇÑ´Ù.
+        // ì•„ì´í…œ ì´íŽ™íŠ¸ë¥¼ ìƒì„±í•œë‹¤.
         GameObject itemEffGO = Instantiate(itemEffect);
         itemEffGO.transform.position = transform.position;
 
-        // ¸ñÇ¥3. Æø¹ß½Ã »ç¿îµå ÀÌÆåÆ®¸¦ »ý¼ºÇÑ´Ù.
-        // ¼ø¼­1. »ç¿îµå ¸Å´ÏÀú¸¦ ºÒ·¯¿Â´Ù.
+        // ëª©í‘œ3. í­ë°œì‹œ ì‚¬ìš´ë“œ ì´íŽ™íŠ¸ë¥¼ ìƒì„±í•œë‹¤.
+        // ìˆœì„œ1. ì‚¬ìš´ë“œ ë§¤ë‹ˆì €ë¥¼ ë¶ˆëŸ¬ì˜¨ë‹¤.
         GameObject soundManager = GameObject.Find("SoundManager");
 
         AudioSource audioSource = soundManager.GetComponent<SoundManager>().effAudioSource;
-        // ¼ø¼­2. »ç¿îµå ¸Å´ÏÀú¿¡¼­ ¿Àµð¿À ¼Ò½ºÀÇ ¿Àµð¿À Å¬¸³À» º¯°æÇØÁØ´Ù.
+        // ìˆœì„œ2. ì‚¬ìš´ë“œ ë§¤ë‹ˆì €ì—ì„œ ì˜¤ë””ì˜¤ ì†ŒìŠ¤ì˜ ì˜¤ë””ì˜¤ í´ë¦½ì„ ë³€ê²½í•´ì¤€ë‹¤.
         audioSource.clip = soundManager.GetComponent<SoundManager>().itemAudioClips[0];
 
-        // ¼ø¼­3. »ç¿îµå ¸Å´ÏÀúÀÇ ¿Àµð¿À ¼Ò½º¸¦ Àç»ý½ÃÅ²´Ù.
+        // ìˆœì„œ3. ì‚¬ìš´ë“œ ë§¤ë‹ˆì €ì˜ ì˜¤ë””ì˜¤ ì†ŒìŠ¤ë¥¼ ìž¬ìƒì‹œí‚¨ë‹¤.
         audioSource.Play();
     }
 }

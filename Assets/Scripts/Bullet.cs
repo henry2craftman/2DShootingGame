@@ -16,6 +16,8 @@ public class Bullet : MonoBehaviour
     public float speed = 1.0f;
     public Vector3 dir = Vector3.up;
     public GameObject bulletExplosion;
+    public int parentID;
+
 
     // 목표: 내가(총알) 위로 날아간다.
     void Update()

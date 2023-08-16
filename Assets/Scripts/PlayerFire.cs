@@ -31,12 +31,14 @@ public class PlayerFire : MonoBehaviour
 
     // 필요속성: 총알 오브젝트의 개수, 오브젝트 풀 배열
     public int poolSize = 100;
-    GameObject[] bulletObjectPool;
+    //GameObject[] bulletObjectPool;
+    public List<GameObject> bulletObjectPool;
 
     private void Start()
     {
         // 순서1. 풀 사이즈 만큼의 배열을 생성한다.
-        bulletObjectPool = new GameObject[poolSize];
+        //bulletObjectPool = new GameObject[poolSize];
+        bulletObjectPool = new List<GameObject>();
 
         for (int i = 0; i < poolSize; i++)
         {
@@ -44,7 +46,8 @@ public class PlayerFire : MonoBehaviour
             GameObject bulletGO = Instantiate(bullet);
 
             // 순서3. 생성한 총알 게임 오브젝트를 풀에 넣는다.
-            bulletObjectPool[i] = bulletGO;
+            //bulletObjectPool[i] = bulletGO;
+            bulletObjectPool.Add(bulletGO);
 
             bulletGO.SetActive(false);
             bulletGO.transform.parent = transform;
@@ -89,7 +92,7 @@ public class PlayerFire : MonoBehaviour
         {
             // 순서2: 총알을 만들고 싶다.
             // 목표: 총알 게임오브젝트 풀에서 총알 게임오브젝트가 비활성화 되어있다면 활성화 시키겠다.
-            for (int i = 0; i < poolSize; i++)
+            /*for (int i = 0; i < poolSize; i++)
             {
                 GameObject bulletGO = bulletObjectPool[i];
 
@@ -104,8 +107,19 @@ public class PlayerFire : MonoBehaviour
 
                     break;
                 }
-            }
+            }*/
+            if(bulletObjectPool.Count > 0)
+            {
+                GameObject bulletGO = bulletObjectPool[0];
 
+                // 활성화 시키겠다.
+                bulletGO.SetActive(true);
+
+                // 순서3: 총알의 위치를 플레이어의 위치로 정해주고 싶다.
+                bulletGO.transform.position = gunPos.transform.position;
+
+                bulletObjectPool.Remove(bulletGO);
+            }
         }
 
         // 두개의 총알이 발사된다.
@@ -113,7 +127,7 @@ public class PlayerFire : MonoBehaviour
         {
             // 순서2: 총알을 만들고 싶다.
             // 목표: 총알 게임오브젝트 풀에서 총알 게임오브젝트가 비활성화 되어있다면 활성화 시키겠다.
-            for (int i = 0; i < poolSize; i++)
+            /*for (int i = 0; i < poolSize; i++)
             {
                 GameObject bulletGO = bulletObjectPool[i];
 
@@ -144,7 +158,33 @@ public class PlayerFire : MonoBehaviour
                     bulletGO1.transform.position = gunPos.transform.position + new Vector3(0.3f, 0, 0);
 
                     break;
-                }
+                }*/
+            }
+
+            if (bulletObjectPool.Count > 0)
+            {
+                GameObject bulletGO = bulletObjectPool[0];
+
+                // 활성화 시키겠다.
+                bulletGO.SetActive(true);
+
+                // 순서3: 총알의 위치를 플레이어의 위치로 정해주고 싶다.
+                bulletGO.transform.position = gunPos.transform.position + new Vector3(-0.3f, 0, 0);
+
+                bulletObjectPool.Remove(bulletGO);
+            }
+
+            if (bulletObjectPool.Count > 0)
+            {
+                GameObject bulletGO = bulletObjectPool[0];
+
+                // 활성화 시키겠다.
+                bulletGO.SetActive(true);
+
+                // 순서3: 총알의 위치를 플레이어의 위치로 정해주고 싶다.
+                bulletGO.transform.position = gunPos.transform.position + new Vector3(0.3f, 0, 0);
+
+                bulletObjectPool.Remove(bulletGO);
             }
         }
 
@@ -190,7 +230,7 @@ public class PlayerFire : MonoBehaviour
                 bulletGO.GetComponent<Bullet>().dir = bulletGO.transform.up;
             }
         }
-    }
+    
 
     // 목표2: 아이템을 먹었다면, 스킬 레벨이 올라간다.
     private void OnTriggerEnter(Collider other)
@@ -203,7 +243,7 @@ public class PlayerFire : MonoBehaviour
                 skillLevel++;
 
             // 단계3. 아이템을 파괴한다.
-            Destroy(other.gameObject);
+            other.gameObject.SetActive(false);
         }
     }
 }
