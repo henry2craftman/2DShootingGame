@@ -1,34 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
-using static SoundManager;
 
-// ¸ñÇ¥: ¾Æ·¡ ¹æÇâÀ¸·Î ÀÌµ¿ÇÑ´Ù.
+// ëª©í‘œ: ì•„ë˜ ë°©í–¥ìœ¼ë¡œ ì´ë™í•œë‹¤.
 
-// ¸ñÇ¥2: ´Ù¸¥ Ãæµ¹Ã¼¿Í ºÎµúÇûÀ¸¸é ³ª, »ó´ë¸¦ ÆÄ±«ÇÑ´Ù.
+// ëª©í‘œ2: ë‹¤ë¥¸ ì¶©ëŒì²´ì™€ ë¶€ë”ªí˜”ìœ¼ë©´ ë‚˜, ìƒëŒ€ë¥¼ íŒŒê´´í•œë‹¤.
 
-// ¸ñÇ¥3: ½ÃÀÛ½Ã 30%ÀÇ È®·ü·Î ÇÃ·¹ÀÌ¾î¸¦ µû¶ó°£´Ù.
-// ÇÊ¿ä¼Ó¼º: 30%ÀÇ È®·ü
+// ëª©í‘œ3: ì‹œì‘ì‹œ 30%ì˜ í™•ë¥ ë¡œ í”Œë ˆì´ì–´ë¥¼ ë”°ë¼ê°„ë‹¤.
+// í•„ìš”ì†ì„±: 30%ì˜ í™•ë¥ 
 
-// ¸ñÇ¥4: 10ÇÁ·ÎÀÇ È®·ü·Î ÇÃ·¹ÀÌ¾î¸¦ µû¶ó°£´Ù.
-// ÇÊ¿ä¼Ó¼º: ÇÃ·¹ÀÌ¾îÀÇ ¹æÇâ
+// ëª©í‘œ4: 10í”„ë¡œì˜ í™•ë¥ ë¡œ í”Œë ˆì´ì–´ë¥¼ ë”°ë¼ê°„ë‹¤.
+// í•„ìš”ì†ì„±: í”Œë ˆì´ì–´ì˜ ë°©í–¥
 
-// ¸ñÇ¥5: Àûµµ ÇÃ·¹ÀÌ¾î¸¦ ÇâÇØ Æ¯Á¤ ½Ã°£¿¡ ÇÑ¹ø¾¿ ÃÑÀ» ½ğ´Ù.
-// ÇÊ¿ä¼Ó¼º: ÃÑ¾Ë, Æ¯Á¤ ½Ã°£
+// ëª©í‘œ5: ì ë„ í”Œë ˆì´ì–´ë¥¼ í–¥í•´ íŠ¹ì • ì‹œê°„ì— í•œë²ˆì”© ì´ì„ ìœë‹¤.
+// í•„ìš”ì†ì„±: ì´ì•Œ, íŠ¹ì • ì‹œê°„
 
-// ¸ñÇ¥6: Ãæµ¹½Ã Æø¹ß È¿°ú¸¦ »ı¼ºÇÑ´Ù.
-// ÇÊ¿ä¼Ó¼º: Æø¹ßÈ¿°ú °ÔÀÓ¿ÀºêÁ§Æ®
+// ëª©í‘œ6: ì¶©ëŒì‹œ í­ë°œ íš¨ê³¼ë¥¼ ìƒì„±í•œë‹¤.
+// í•„ìš”ì†ì„±: í­ë°œíš¨ê³¼ ê²Œì„ì˜¤ë¸Œì íŠ¸
 
-// ¸ñÇ¥7: Ãæµ¹½Ã hp°¡ °¨¼ÒÇÑ´Ù.
-// ÇÊ¿ä¼Ó¼º: hp
+// ëª©í‘œ7: ì¶©ëŒì‹œ hpê°€ ê°ì†Œí•œë‹¤.
+// í•„ìš”ì†ì„±: hp
 
-// ¸ñÇ¥8: ÇÇ°İ½Ã °ÔÀÓ¸Ş´ÏÀúÀÇ attackScore¸¦ 10¿Ã·ÁÁØ´Ù.
-// ¼ø¼­1. ½ÃÀÛ½Ã °ÔÀÓ¸Å´ÏÀú¸¦ ºÒ·¯¿Â´Ù.
-// ÇÊ¿ä¼Ó¼º: °ÔÀÓ¸Å´ÏÀú
-// ¸ñÇ¥9: ÇÇ°İ½Ã °ÔÀÓ¸Ş´ÏÀúÀÇ destroyScore¸¦ 100¿Ã·ÁÁØ´Ù.
-// ¸ñÇ¥10: ÇÃ·¹ÀÌ¾î ÆÄ±«½Ã ÃÖ°í Á¡¼ö¸¦ ÇÃÆÖÆû ·¹Áö½ºÆ®¸®¿¡ ÀúÀåÇÑ´Ù.
-// ¸ñÇ¥11: ÇÇ°İ½Ã ÇÇ°İ soundEff¸¦ ½ÇÇàÇÑ´Ù.
-// ÇÊ¿ä¼Ó¼º: »ç¿îµå¸Å´ÏÀú
+// ëª©í‘œ8: í”¼ê²©ì‹œ ê²Œì„ë©”ë‹ˆì €ì˜ attackScoreë¥¼ 10ì˜¬ë ¤ì¤€ë‹¤.
+// ìˆœì„œ1. ì‹œì‘ì‹œ ê²Œì„ë§¤ë‹ˆì €ë¥¼ ë¶ˆëŸ¬ì˜¨ë‹¤.
+// í•„ìš”ì†ì„±: ê²Œì„ë§¤ë‹ˆì €
+// ëª©í‘œ9: í”¼ê²©ì‹œ ê²Œì„ë©”ë‹ˆì €ì˜ destroyScoreë¥¼ 100ì˜¬ë ¤ì¤€ë‹¤.
+// ëª©í‘œ10: í”Œë ˆì´ì–´ íŒŒê´´ì‹œ ìµœê³  ì ìˆ˜ë¥¼ í”ŒíŒ»í¼ ë ˆì§€ìŠ¤íŠ¸ë¦¬ì— ì €ì¥í•œë‹¤.
+// ëª©í‘œ11: í”¼ê²©ì‹œ í”¼ê²© soundEffë¥¼ ì‹¤í–‰í•œë‹¤.
+// í•„ìš”ì†ì„±: ì‚¬ìš´ë“œë§¤ë‹ˆì €
 public class Enemy : MonoBehaviour
 {
     public float speed = 1.0f;
@@ -36,25 +36,20 @@ public class Enemy : MonoBehaviour
     int randValue;
     GameObject player;
 
-    // ÇÊ¿ä¼Ó¼º: ÇÃ·¹ÀÌ¾îÀÇ ¹æÇâ
+    // í•„ìš”ì†ì„±: í”Œë ˆì´ì–´ì˜ ë°©í–¥
     Vector3 playerDir;
 
-    // ÇÊ¿ä¼Ó¼º: Æø¹ßÈ¿°ú °ÔÀÓ¿ÀºêÁ§Æ®
+    // í•„ìš”ì†ì„±: í­ë°œíš¨ê³¼ ê²Œì„ì˜¤ë¸Œì íŠ¸
     public GameObject explosionEff;
 
-    // ÇÊ¿ä¼Ó¼º: hp
+    // í•„ìš”ì†ì„±: hp
     int hp = 3;
-
-    // ÇÊ¿ä¼Ó¼º: °ÔÀÓ¸Å´ÏÀú
-    GameManager gameManager;
-
-    // ÇÊ¿ä¼Ó¼º: »ç¿îµå¸Å´ÏÀú
-    SoundManager soundManager;
 
     private void Start()
     {
-        // ÇÊ¿ä¼Ó¼º: 30%ÀÇ È®·ü
-        randValue = Random.Range(0, 10); // 0 ~ 9 »çÀÌÀÇ ÀÓÀÇ °ª
+
+        // í•„ìš”ì†ì„±: 30%ì˜ í™•ë¥ 
+        randValue = Random.Range(0, 10); // 0 ~ 9 ì‚¬ì´ì˜ ì„ì˜ ê°’
         player = GameObject.Find("Player");
 
         if (randValue < 5)
@@ -65,16 +60,12 @@ public class Enemy : MonoBehaviour
                 //dir.Normalize();
             }
         }
-        // ¼ø¼­1. ½ÃÀÛ½Ã °ÔÀÓ¸Å´ÏÀú¸¦ ºÒ·¯¿Â´Ù.
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-
-        soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
     }
 
-    // ¸ñÇ¥: ¾Æ·¡ ¹æÇâÀ¸·Î ÀÌµ¿ÇÑ´Ù.
+    // ëª©í‘œ: ì•„ë˜ ë°©í–¥ìœ¼ë¡œ ì´ë™í•œë‹¤.
     void Update()
     {
-        // ¸ñÇ¥4: 10ÇÁ·ÎÀÇ È®·ü·Î ÇÃ·¹ÀÌ¾î¸¦ µû¶ó°£´Ù.
+        // ëª©í‘œ4: 10í”„ë¡œì˜ í™•ë¥ ë¡œ í”Œë ˆì´ì–´ë¥¼ ë”°ë¼ê°„ë‹¤.
         if (randValue < 3)
         {
             if(player != null) 
@@ -87,14 +78,14 @@ public class Enemy : MonoBehaviour
         transform.position += dir * speed * Time.deltaTime;
     }
 
-    // ¸ñÇ¥2: ´Ù¸¥ Ãæµ¹Ã¼¿Í ºÎµúÇûÀ¸¸é ³ª, »ó´ë¸¦ ÆÄ±«ÇÑ´Ù.
-    // Ãæµ¹ ¼ø°£ ½ÇÇà
+    // ëª©í‘œ2: ë‹¤ë¥¸ ì¶©ëŒì²´ì™€ ë¶€ë”ªí˜”ìœ¼ë©´ ë‚˜, ìƒëŒ€ë¥¼ íŒŒê´´í•œë‹¤.
+    // ì¶©ëŒ ìˆœê°„ ì‹¤í–‰
     private void OnCollisionEnter(Collision otherObject)
     {
         hp--;
-        // ¸ñÇ¥8: ÇÇ°İ½Ã °ÔÀÓ¸Ş´ÏÀúÀÇ attackScore¸¦ 10¿Ã·ÁÁØ´Ù.
-        gameManager.attackScore += 10;
-        gameManager.attackScoreTxt.text = gameManager.attackScore.ToString();
+        // ëª©í‘œ8: í”¼ê²©ì‹œ ê²Œì„ë©”ë‹ˆì €ì˜ attackScoreë¥¼ 10ì˜¬ë ¤ì¤€ë‹¤.
+        GameManager.instance.AttackScore = 10;
+
 
         if (otherObject.gameObject.tag == "Player")
         {
@@ -102,64 +93,54 @@ public class Enemy : MonoBehaviour
 
             if (player.GetComponent<PlayerMove>().hp < 0)
             {
-                // ºÎµúÈù »ó´ë¸¦ ÆÄ±«ÇÑ´Ù.
-                Destroy(otherObject.gameObject);
+                // ë¶€ë”ªíŒ ìƒëŒ€ë¥¼ íŒŒê´´(ë¹„í™œì„±í™”)í•œë‹¤.
+                otherObject.gameObject.SetActive(false);
 
-                gameManager.bestScore = gameManager.attackScore + gameManager.destroyScore;
-                gameManager.bestScoreTxt.text = gameManager.bestScore.ToString();
+                //GameManager.instance.bestScore = GameManager.instance.attackScore + GameManager.instance.destroyScore;
+                //GameManager.instance.bestScoreTxt.text = GameManager.instance.bestScore.ToString();
+                GameManager.instance.SetBestScore();
 
-                // ¸ñÇ¥10: ÇÃ·¹ÀÌ¾î ÆÄ±«½Ã ÃÖ°í Á¡¼ö¶ó¸é ÃÖ°íÁ¡¼ö¸¦ ÇÃÆÖÆû ·¹Áö½ºÆ®¸®¿¡ ÀúÀåÇÑ´Ù.
-                int bestScore = PlayerPrefs.GetInt("Best Score");
-                if (gameManager.bestScore > bestScore)
-                {
-                    PlayerPrefs.SetInt("Best Score", gameManager.bestScore);
-                }
+                // ëª©í‘œ10: í”Œë ˆì´ì–´ íŒŒê´´ì‹œ ìµœê³  ì ìˆ˜ë¼ë©´ ìµœê³ ì ìˆ˜ë¥¼ í”ŒíŒ»í¼ ë ˆì§€ìŠ¤íŠ¸ë¦¬ì— ì €ì¥í•œë‹¤.
+                //int bestScore = PlayerPrefs.GetInt("Best Score");
+                //if (GameManager.instance.bestScore > bestScore)
+                //{
+                //    PlayerPrefs.SetInt("Best Score", GameManager.instance.bestScore);
+                //}
 
-                // ¸ñÇ¥11: ÇÇ°İ½Ã ÇÇ°İ soundEff¸¦ ½ÇÇàÇÑ´Ù.
-                soundManager.effAudioSource.clip = soundManager.bgmAudioClips[0];
-                soundManager.effAudioSource.Play();
+                // ëª©í‘œ11: í”¼ê²©ì‹œ í”¼ê²© soundEffë¥¼ ì‹¤í–‰í•œë‹¤.
+                SoundManager.instance.effAudioSource.clip = SoundManager.instance.bgmAudioClips[0];
+                SoundManager.instance.effAudioSource.Play();
             }
 
-            // ¸ñÇ¥6: Ãæµ¹½Ã Æø¹ß È¿°ú¸¦ »ı¼ºÇÑ´Ù.
+            // ëª©í‘œ6: ì¶©ëŒì‹œ í­ë°œ íš¨ê³¼ë¥¼ ìƒì„±í•œë‹¤.
             GameObject explosionGO = Instantiate(explosionEff);
             explosionGO.transform.position = gameObject.transform.position;
 
-            // ¸ñÇ¥9: ÇÇ°İ½Ã °ÔÀÓ¸Ş´ÏÀúÀÇ destroyScore¸¦ 100¿Ã·ÁÁØ´Ù.
-            gameManager.destroyScore += 100;
-            gameManager.destroyScoreTxt.text = gameManager.destroyScore.ToString();
+            // ëª©í‘œ9: í”¼ê²©ì‹œ ê²Œì„ë©”ë‹ˆì €ì˜ destroyScoreë¥¼ 100ì˜¬ë ¤ì¤€ë‹¤.
+            GameManager.instance.SetDestroyScore();
 
-            // ³ª¸¦ ÆÄ±«ÇÑ´Ù.
-            Destroy(gameObject);
+
+            // ë‚˜ë¥¼ íŒŒê´´(ë¹„í™œì„±í™”)í•œë‹¤.
+            gameObject.SetActive(false);
         }
         else if (hp < 0)
         {
-            // ¸ñÇ¥6: Ãæµ¹½Ã Æø¹ß È¿°ú¸¦ »ı¼ºÇÑ´Ù.
+            // ëª©í‘œ6: ì¶©ëŒì‹œ í­ë°œ íš¨ê³¼ë¥¼ ìƒì„±í•œë‹¤.
             GameObject explosionGO = Instantiate(explosionEff);
             explosionGO.transform.position = gameObject.transform.position;
 
-            // ¸ñÇ¥11: ÇÇ°İ½Ã ÇÇ°İ soundEff¸¦ ½ÇÇàÇÑ´Ù.
-            soundManager.effAudioSource.clip = soundManager.bgmAudioClips[1];
-            soundManager.effAudioSource.Play();
+            // ëª©í‘œ11: í”¼ê²©ì‹œ í”¼ê²© soundEffë¥¼ ì‹¤í–‰í•œë‹¤.
+            SoundManager.instance.effAudioSource.clip = SoundManager.instance.bgmAudioClips[1];
+            SoundManager.instance.effAudioSource.Play();
 
-            // ¸ñÇ¥9: ÇÇ°İ½Ã °ÔÀÓ¸Ş´ÏÀúÀÇ destroyScore¸¦ 100¿Ã·ÁÁØ´Ù.
-            gameManager.destroyScore += 100;
-            gameManager.destroyScoreTxt.text = gameManager.destroyScore.ToString();
+            // ëª©í‘œ9: í”¼ê²©ì‹œ ê²Œì„ë©”ë‹ˆì €ì˜ destroyScoreë¥¼ 100ì˜¬ë ¤ì¤€ë‹¤.
+            GameManager.instance.SetDestroyScore();
 
-            // ³ª¸¦ ÆÄ±«ÇÑ´Ù.
-            Destroy(gameObject);
+            // ë‚˜ë¥¼ íŒŒê´´(ë¹„í™œì„±í™”)í•œë‹¤.
+            gameObject.SetActive(false);
 
-            // ºÎµúÈù »ó´ë¸¦ ÆÄ±«ÇÑ´Ù.
-            Destroy(otherObject.gameObject);
+            // ë¶€ë”ªíŒ ìƒëŒ€ë¥¼ íŒŒê´´(ë¹„í™œì„±í™”)í•œë‹¤.
+            otherObject.gameObject.SetActive(false);
         }
-    }
-
-    // Ãæµ¹ Áß ½ÇÇà
-    private void OnCollisionStay(Collision collision)
-    {
-    }
-
-    // Ãæµ¹ Á¾·á½Ã ½ÇÇà
-    private void OnCollisionExit(Collision collision)
-    {  
     }
 }

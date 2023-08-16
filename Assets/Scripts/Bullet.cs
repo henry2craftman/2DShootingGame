@@ -2,31 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// ¸ñÇ¥: ³»°¡(ÃÑ¾Ë) À§·Î ³¯¾Æ°£´Ù.
-// ÇÊ¿ä¼Ó¼º: ¹æÇâ, ¼Óµµ
-// ¸ñÇ¥2: ÃÑÀ» ½ğ ÁÖÃ¼°¡ ÇÃ·¹ÀÌ¾îÀÎÁö ÀûÀÎÁö È®ÀÎ ÈÄ, ¹ß»ç ¹æÇâÀ» Á¤ÇÑ´Ù.
-// ¸ñÇ¥3: Ãæµ¹½Ã Æø¹ß È¿°ú¸¦ »ı¼ºÇÑ´Ù.
-// ÇÊ¿ä¼Ó¼º: Æø¹ßÈ¿°ú
-// ¸ñÇ¥4: ÇÃ·¹ÀÌ¾î ÆÄ±«½Ã ÃÖ°í Á¡¼ö¸¦ BestScoreUI¿Í ÇÃÆÖÆû ·¹Áö½ºÆ®¸®¿¡ ÀúÀåÇÑ´Ù.
-// ¸ñÇ¥5: ÇÇ°İ½Ã ÇÇ°İ soundEff¸¦ ½ÇÇàÇÑ´Ù.
-// ÇÊ¿ä¼Ó¼º: »ç¿îµå¸Å´ÏÀú
+// ëª©í‘œ: ë‚´ê°€(ì´ì•Œ) ìœ„ë¡œ ë‚ ì•„ê°„ë‹¤.
+// í•„ìš”ì†ì„±: ë°©í–¥, ì†ë„
+// ëª©í‘œ2: ì´ì„ ìœ ì£¼ì²´ê°€ í”Œë ˆì´ì–´ì¸ì§€ ì ì¸ì§€ í™•ì¸ í›„, ë°œì‚¬ ë°©í–¥ì„ ì •í•œë‹¤.
+// ëª©í‘œ3: ì¶©ëŒì‹œ í­ë°œ íš¨ê³¼ë¥¼ ìƒì„±í•œë‹¤.
+// í•„ìš”ì†ì„±: í­ë°œíš¨ê³¼
+// ëª©í‘œ4: í”Œë ˆì´ì–´ íŒŒê´´ì‹œ ìµœê³  ì ìˆ˜ë¥¼ BestScoreUIì™€ í”ŒíŒ»í¼ ë ˆì§€ìŠ¤íŠ¸ë¦¬ì— ì €ì¥í•œë‹¤.
+// ëª©í‘œ5: í”¼ê²©ì‹œ í”¼ê²© soundEffë¥¼ ì‹¤í–‰í•œë‹¤.
+// í•„ìš”ì†ì„±: ì‚¬ìš´ë“œë§¤ë‹ˆì €
 public class Bullet : MonoBehaviour
 {
-    // ÇÊ¿ä¼Ó¼º: ¹æÇâ, ¼Óµµ
+    // í•„ìš”ì†ì„±: ë°©í–¥, ì†ë„
     public float speed = 1.0f;
     public Vector3 dir = Vector3.up;
     public GameObject bulletExplosion;
 
-    // ÇÊ¿ä¼Ó¼º: »ç¿îµå¸Å´ÏÀú
-    SoundManager soundManager;
-
-    private void Start()
-    {
-        soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
-
-    }
-
-    // ¸ñÇ¥: ³»°¡(ÃÑ¾Ë) À§·Î ³¯¾Æ°£´Ù.
+    // ëª©í‘œ: ë‚´ê°€(ì´ì•Œ) ìœ„ë¡œ ë‚ ì•„ê°„ë‹¤.
     void Update()
     {
         transform.position += dir * speed * Time.deltaTime;
@@ -44,32 +35,27 @@ public class Bullet : MonoBehaviour
 
                 if (player.GetComponent<PlayerMove>().hp < 0)
                 {
-                    // ºÎµúÈù »ó´ë¸¦ ÆÄ±«ÇÑ´Ù.
-                    Destroy(otherObject.gameObject);
+                    // ë¶€ë”ªíŒ ìƒëŒ€ë¥¼ íŒŒê´´(ë¹„í™œì„±í™”)í•œë‹¤.
+                    otherObject.gameObject.SetActive(false);
 
-                    // ¸ñÇ¥10: ÇÃ·¹ÀÌ¾î ÆÄ±«½Ã ÃÖ°í Á¡¼ö¸¦ BestScoreUI¿Í ÇÃÆÖÆû ·¹Áö½ºÆ®¸®¿¡ ÀúÀåÇÑ´Ù.
-                    GameManager gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+                    // ëª©í‘œ10: í”Œë ˆì´ì–´ íŒŒê´´ì‹œ ìµœê³  ì ìˆ˜ë¥¼ BestScoreUIì™€ í”ŒíŒ»í¼ ë ˆì§€ìŠ¤íŠ¸ë¦¬ì— ì €ì¥í•œë‹¤.
+                    GameManager.instance.SetBestScore();
 
-                    gameManager.bestScore = gameManager.attackScore + gameManager.destroyScore;
-                    gameManager.bestScoreTxt.text = gameManager.bestScore.ToString();
-
-                    PlayerPrefs.SetInt("Best Score", gameManager.bestScore);
-
-                    // ¸ñÇ¥5: ÇÇ°İ½Ã ÇÇ°İ soundEff¸¦ ½ÇÇàÇÑ´Ù.
-                    soundManager.effAudioSource.clip = soundManager.explosionAudioClips[1];
-                    soundManager.effAudioSource.Play();
+                    // ëª©í‘œ5: í”¼ê²©ì‹œ í”¼ê²© soundEffë¥¼ ì‹¤í–‰í•œë‹¤.
+                    SoundManager.instance.effAudioSource.clip = SoundManager.instance.explosionAudioClips[1];
+                    SoundManager.instance.effAudioSource.Play();
                 }
             }
         }
 
-        // ³ª¸¦ ÆÄ±«ÇÑ´Ù.
-        Destroy(gameObject);
+        // ë‚˜ë¥¼ íŒŒê´´(ë¹„í™œì„±í™”)í•œë‹¤.
+        gameObject.SetActive(false);    
 
-        // ¸ñÇ¥3: Ãæµ¹½Ã Æø¹ß È¿°ú¸¦ »ı¼ºÇÑ´Ù.
+        // ëª©í‘œ3: ì¶©ëŒì‹œ í­ë°œ íš¨ê³¼ë¥¼ ìƒì„±í•œë‹¤.
         GameObject bulletExplosionGO = Instantiate(bulletExplosion);
         bulletExplosionGO.transform.position = transform.position;
 
-        soundManager.effAudioSource.clip = soundManager.explosionAudioClips[2];
-        soundManager.effAudioSource.Play();
+        SoundManager.instance.effAudioSource.clip = SoundManager.instance.explosionAudioClips[2];
+        SoundManager.instance.effAudioSource.Play();
     }
 }

@@ -2,18 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// ¸ñÇ¥: »ç¿ëÀÚ ÀÔ·Â(Space)¸¦ ¹Ş¾Æ ÃÑ¾ËÀ» ¸¸µé°í ½Í´Ù.
-// ¼ø¼­1: ÀÔ·ÂÀ» ¹Ş°í ½Í´Ù.
-// ¼ø¼­2: ÃÑ¾ËÀ» ¸¸µé°í ½Í´Ù.
+// ëª©í‘œ: ì‚¬ìš©ì ì…ë ¥(Space)ë¥¼ ë°›ì•„ ì´ì•Œì„ ë§Œë“¤ê³  ì‹¶ë‹¤.
+// ìˆœì„œ1: ì…ë ¥ì„ ë°›ê³  ì‹¶ë‹¤.
+// ìˆœì„œ2: ì´ì•Œì„ ë§Œë“¤ê³  ì‹¶ë‹¤.
 
-// ¸ñÇ¥2: ¾ÆÀÌÅÛÀ» ¸Ô¾ú´Ù¸é, ½ºÅ³ ·¹º§ÀÌ ¿Ã¶ó°£´Ù.
-// ¼Ó¼º: ½ºÅ³·¹º§
-// ´Ü°è1. ¾ÆÀÌÅÛÀ» ¸Ô¾ú´Ù¸é
-// ´Ü°è2. ½ºÅ³·¹º§ÀÌ 1 ¿Ã¶ó°£´Ù.
-// ´Ü°è3. ¾ÆÀÌÅÛÀ» ÆÄ±«ÇÑ´Ù.
-// ´Ü°è4. ¾ÆÀÌÅÛ ÀÌÆåÆ®¸¦ »ı¼ºÇÑ´Ù.
-// ´Ü°è5. ¹ß»ç½Ã SoundMangerÀÇ AudioSource¸¦ Àç»ıÇÑ´Ù.
-// ¼Ó¼º: SoundManager
+// ëª©í‘œ2: ì•„ì´í…œì„ ë¨¹ì—ˆë‹¤ë©´, ìŠ¤í‚¬ ë ˆë²¨ì´ ì˜¬ë¼ê°„ë‹¤.
+// ì†ì„±: ìŠ¤í‚¬ë ˆë²¨
+// ë‹¨ê³„1. ì•„ì´í…œì„ ë¨¹ì—ˆë‹¤ë©´
+// ë‹¨ê³„2. ìŠ¤í‚¬ë ˆë²¨ì´ 1 ì˜¬ë¼ê°„ë‹¤.
+// ë‹¨ê³„3. ì•„ì´í…œì„ íŒŒê´´í•œë‹¤.
+// ë‹¨ê³„4. ì•„ì´í…œ ì´í™íŠ¸ë¥¼ ìƒì„±í•œë‹¤.
+// ë‹¨ê³„5. ë°œì‚¬ì‹œ SoundMangerì˜ AudioSourceë¥¼ ì¬ìƒí•œë‹¤.
+// ì†ì„±: SoundManager.instance
+
+// ëª©í‘œ3: ì´ì•Œ ì˜¤ë¸Œì íŠ¸ í’€ì„ ë§Œë“¤ì–´ì„œ ê´€ë¦¬í•˜ê³  ì‹¶ë‹¤.
+// í•„ìš”ì†ì„±: ì´ì•Œ ì˜¤ë¸Œì íŠ¸ì˜ ê°œìˆ˜, ì˜¤ë¸Œì íŠ¸ í’€ ë°°ì—´
+// ìˆœì„œ1. í’€ ì‚¬ì´ì¦ˆ ë§Œí¼ì˜ ë°°ì—´ì„ ìƒì„±í•œë‹¤.
+// ìˆœì„œ2. ì´ì•Œ ê²Œì„ ì˜¤ë¸Œì íŠ¸ë¥¼ ìƒì„±í•œë‹¤.
+// ìˆœì„œ3. ìƒì„±í•œ ì´ì•Œ ê²Œì„ ì˜¤ë¸Œì íŠ¸ë¥¼ í’€ì— ë„£ëŠ”ë‹¤.
+
+// ëª©í‘œ: ì´ì•Œ ê²Œì„ì˜¤ë¸Œì íŠ¸ í’€ì—ì„œ ì´ì•Œ ê²Œì„ì˜¤ë¸Œì íŠ¸ê°€ ë¹„í™œì„±í™” ë˜ì–´ìˆë‹¤ë©´ í™œì„±í™” ì‹œí‚¤ê² ë‹¤.
 public class PlayerFire : MonoBehaviour
 {
     public GameObject bullet;
@@ -21,18 +29,33 @@ public class PlayerFire : MonoBehaviour
     public int skillLevel = 0;
     public int degree = 15;
 
-    // ¼Ó¼º: SoundManager
-    SoundManager soundManager;
+    // í•„ìš”ì†ì„±: ì´ì•Œ ì˜¤ë¸Œì íŠ¸ì˜ ê°œìˆ˜, ì˜¤ë¸Œì íŠ¸ í’€ ë°°ì—´
+    public int poolSize = 100;
+    GameObject[] bulletObjectPool;
 
     private void Start()
     {
-        soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
+        // ìˆœì„œ1. í’€ ì‚¬ì´ì¦ˆ ë§Œí¼ì˜ ë°°ì—´ì„ ìƒì„±í•œë‹¤.
+        bulletObjectPool = new GameObject[poolSize];
+
+        for (int i = 0; i < poolSize; i++)
+        {
+            // ìˆœì„œ2. ì´ì•Œ ê²Œì„ ì˜¤ë¸Œì íŠ¸ë¥¼ ìƒì„±í•œë‹¤.
+            GameObject bulletGO = Instantiate(bullet);
+
+            // ìˆœì„œ3. ìƒì„±í•œ ì´ì•Œ ê²Œì„ ì˜¤ë¸Œì íŠ¸ë¥¼ í’€ì— ë„£ëŠ”ë‹¤.
+            bulletObjectPool[i] = bulletGO;
+
+            bulletGO.SetActive(false);
+            bulletGO.transform.parent = transform;
+        }
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        // ¼ø¼­1: ÀÔ·ÂÀ» ¹Ş°í ½Í´Ù.
+        // ìˆœì„œ1: ì…ë ¥ì„ ë°›ê³  ì‹¶ë‹¤.
         if (Input.GetKeyDown(KeyCode.Space))
         {
             ExcuteSkill(skillLevel);
@@ -57,47 +80,89 @@ public class PlayerFire : MonoBehaviour
                 break;
         }
 
-        // ´Ü°è5. ¹ß»ç½Ã SoundMangerÀÇ AudioSource¸¦ Àç»ıÇÑ´Ù.
-        soundManager.effAudioSource.clip = soundManager.fireAudioClips[0];
-        soundManager.effAudioSource.Play();
+        // ë‹¨ê³„5. ë°œì‚¬ì‹œ SoundMangerì˜ AudioSourceë¥¼ ì¬ìƒí•œë‹¤.
+        SoundManager.instance.effAudioSource.clip = SoundManager.instance.fireAudioClips[0];
+        SoundManager.instance.effAudioSource.Play();
 
-        // ÇÑ°³ÀÇ ÃÑ¾ËÀÌ ¹ß»çµÈ´Ù.
+        // í•œê°œì˜ ì´ì•Œì´ ë°œì‚¬ëœë‹¤.
         void ExcuteSkill0()
         {
-            // ¼ø¼­2: ÃÑ¾ËÀ» ¸¸µé°í ½Í´Ù.
-            GameObject bulletGO = Instantiate(bullet);
+            // ìˆœì„œ2: ì´ì•Œì„ ë§Œë“¤ê³  ì‹¶ë‹¤.
+            // ëª©í‘œ: ì´ì•Œ ê²Œì„ì˜¤ë¸Œì íŠ¸ í’€ì—ì„œ ì´ì•Œ ê²Œì„ì˜¤ë¸Œì íŠ¸ê°€ ë¹„í™œì„±í™” ë˜ì–´ìˆë‹¤ë©´ í™œì„±í™” ì‹œí‚¤ê² ë‹¤.
+            for (int i = 0; i < poolSize; i++)
+            {
+                GameObject bulletGO = bulletObjectPool[i];
 
-            // ¼ø¼­3: ÃÑ¾ËÀÇ À§Ä¡¸¦ ÇÃ·¹ÀÌ¾îÀÇ À§Ä¡·Î Á¤ÇØÁÖ°í ½Í´Ù.
-            bulletGO.transform.position = gunPos.transform.position;
+                // í’€ì—ì„œ ì´ì•Œ ê²Œì„ì˜¤ë¸Œì íŠ¸ê°€ ë¹„í™œì„±í™” ë˜ì–´ìˆë‹¤ë©´ 
+                if (bulletGO.activeSelf == false)
+                {
+                    // í™œì„±í™” ì‹œí‚¤ê² ë‹¤.
+                    bulletGO.SetActive(true);
+
+                    // ìˆœì„œ3: ì´ì•Œì˜ ìœ„ì¹˜ë¥¼ í”Œë ˆì´ì–´ì˜ ìœ„ì¹˜ë¡œ ì •í•´ì£¼ê³  ì‹¶ë‹¤.
+                    bulletGO.transform.position = gunPos.transform.position;
+
+                    break;
+                }
+            }
+
         }
 
-        // µÎ°³ÀÇ ÃÑ¾ËÀÌ ¹ß»çµÈ´Ù.
+        // ë‘ê°œì˜ ì´ì•Œì´ ë°œì‚¬ëœë‹¤.
         void ExcuteSkill1()
         {
-            // ¼ø¼­2: ÃÑ¾ËÀ» ¸¸µé°í ½Í´Ù.
-            GameObject bulletGO = Instantiate(bullet);
-            GameObject bulletGO1 = Instantiate(bullet);
+            // ìˆœì„œ2: ì´ì•Œì„ ë§Œë“¤ê³  ì‹¶ë‹¤.
+            // ëª©í‘œ: ì´ì•Œ ê²Œì„ì˜¤ë¸Œì íŠ¸ í’€ì—ì„œ ì´ì•Œ ê²Œì„ì˜¤ë¸Œì íŠ¸ê°€ ë¹„í™œì„±í™” ë˜ì–´ìˆë‹¤ë©´ í™œì„±í™” ì‹œí‚¤ê² ë‹¤.
+            for (int i = 0; i < poolSize; i++)
+            {
+                GameObject bulletGO = bulletObjectPool[i];
 
-            // ¼ø¼­3: ÃÑ¾ËÀÇ À§Ä¡¸¦ ÇÃ·¹ÀÌ¾îÀÇ À§Ä¡·Î Á¤ÇØÁÖ°í ½Í´Ù.
-            bulletGO.transform.position = gunPos.transform.position + new Vector3(-0.3f , 0, 0);
-            bulletGO1.transform.position = gunPos.transform.position + new Vector3(0.3f, 0, 0);
+                // í’€ì—ì„œ ì´ì•Œ ê²Œì„ì˜¤ë¸Œì íŠ¸ê°€ ë¹„í™œì„±í™” ë˜ì–´ìˆë‹¤ë©´ 
+                if (bulletGO.activeSelf == false)
+                {
+                    // í™œì„±í™” ì‹œí‚¤ê² ë‹¤.
+                    bulletGO.SetActive(true);
+
+                    // ìˆœì„œ3: ì´ì•Œì˜ ìœ„ì¹˜ë¥¼ í”Œë ˆì´ì–´ì˜ ìœ„ì¹˜ë¡œ ì •í•´ì£¼ê³  ì‹¶ë‹¤.
+                    bulletGO.transform.position = gunPos.transform.position + new Vector3(-0.3f, 0, 0);
+
+                    break;
+                }
+            }
+
+            for (int i = 0; i < poolSize; i++)
+            {
+                GameObject bulletGO1 = bulletObjectPool[i];
+
+                // í’€ì—ì„œ ì´ì•Œ ê²Œì„ì˜¤ë¸Œì íŠ¸ê°€ ë¹„í™œì„±í™” ë˜ì–´ìˆë‹¤ë©´ 
+                if (bulletGO1.activeSelf == false)
+                {
+                    // í™œì„±í™” ì‹œí‚¤ê² ë‹¤.
+                    bulletGO1.SetActive(true);
+
+                    // ìˆœì„œ3: ì´ì•Œì˜ ìœ„ì¹˜ë¥¼ í”Œë ˆì´ì–´ì˜ ìœ„ì¹˜ë¡œ ì •í•´ì£¼ê³  ì‹¶ë‹¤.
+                    bulletGO1.transform.position = gunPos.transform.position + new Vector3(0.3f, 0, 0);
+
+                    break;
+                }
+            }
         }
 
-        // ¼¼°³ÀÇ ÃÑ¾ËÀÌ ¹ß»çµÈ´Ù.
-        // 1, 2, 3 ÃÑ¾Ë Áß 1, 3 ÃÑ¾ËÀÌ °¢°¢ ZÃàÀ¸·Î -30µµ, 30µµ È¸Àü ÈÄ ¹ß»çµÈ´Ù.
+        // ì„¸ê°œì˜ ì´ì•Œì´ ë°œì‚¬ëœë‹¤.
+        // 1, 2, 3 ì´ì•Œ ì¤‘ 1, 3 ì´ì•Œì´ ê°ê° Zì¶•ìœ¼ë¡œ -30ë„, 30ë„ íšŒì „ í›„ ë°œì‚¬ëœë‹¤.
         void ExcuteSkill2()
         {
-            // ¼ø¼­2: ÃÑ¾ËÀ» ¸¸µé°í ½Í´Ù.
+            // ìˆœì„œ2: ì´ì•Œì„ ë§Œë“¤ê³  ì‹¶ë‹¤.
             GameObject bulletGO = Instantiate(bullet);
 
-            // ¼ø¼­3: ÃÑ¾ËÀÇ À§Ä¡¸¦ ÇÃ·¹ÀÌ¾îÀÇ À§Ä¡·Î Á¤ÇØÁÖ°í ½Í´Ù.
+            // ìˆœì„œ3: ì´ì•Œì˜ ìœ„ì¹˜ë¥¼ í”Œë ˆì´ì–´ì˜ ìœ„ì¹˜ë¡œ ì •í•´ì£¼ê³  ì‹¶ë‹¤.
             bulletGO.transform.position = gunPos.transform.position;
 
-            // ¼ø¼­2: ÃÑ¾ËÀ» ¸¸µé°í ½Í´Ù.
+            // ìˆœì„œ2: ì´ì•Œì„ ë§Œë“¤ê³  ì‹¶ë‹¤.
             GameObject bulletGO2 = Instantiate(bullet);
             GameObject bulletGO3 = Instantiate(bullet);
 
-            // ¼ø¼­3: ÃÑ¾ËÀÇ À§Ä¡¸¦ ÇÃ·¹ÀÌ¾îÀÇ À§Ä¡·Î Á¤ÇØÁÖ°í ½Í´Ù.
+            // ìˆœì„œ3: ì´ì•Œì˜ ìœ„ì¹˜ë¥¼ í”Œë ˆì´ì–´ì˜ ìœ„ì¹˜ë¡œ ì •í•´ì£¼ê³  ì‹¶ë‹¤.
             bulletGO2.transform.position = gunPos.transform.position + new Vector3(-0.3f, 0, 0);
             bulletGO2.transform.rotation = Quaternion.Euler(0, 0, 30);
             bulletGO2.GetComponent<Bullet>().dir = bulletGO2.transform.up;
@@ -109,17 +174,17 @@ public class PlayerFire : MonoBehaviour
         }
 
         
-        // 15µµ °£°İ¸¶´Ù ÃÑ 24°³ÀÇ ÃÑ¾ËÀ» 360µµ ¹ß»çÇÑ´Ù.
+        // 15ë„ ê°„ê²©ë§ˆë‹¤ ì´ 24ê°œì˜ ì´ì•Œì„ 360ë„ ë°œì‚¬í•œë‹¤.
         void ExcuteSkill3(int _degree)
         {
             int numOfBullet = 360 / degree;
 
             for (int i = 0; i < numOfBullet; i++)
             {
-                // ¼ø¼­2: ÃÑ¾ËÀ» ¸¸µé°í ½Í´Ù.
+                // ìˆœì„œ2: ì´ì•Œì„ ë§Œë“¤ê³  ì‹¶ë‹¤.
                 GameObject bulletGO = Instantiate(bullet);
 
-                // ¼ø¼­3: ÃÑ¾ËÀÇ À§Ä¡¸¦ ÇÃ·¹ÀÌ¾îÀÇ À§Ä¡·Î Á¤ÇØÁÖ°í ½Í´Ù.
+                // ìˆœì„œ3: ì´ì•Œì˜ ìœ„ì¹˜ë¥¼ í”Œë ˆì´ì–´ì˜ ìœ„ì¹˜ë¡œ ì •í•´ì£¼ê³  ì‹¶ë‹¤.
                 bulletGO.transform.position = gunPos.transform.position;
                 bulletGO.transform.rotation = Quaternion.Euler(0, 0, i * degree);
                 bulletGO.GetComponent<Bullet>().dir = bulletGO.transform.up;
@@ -127,17 +192,17 @@ public class PlayerFire : MonoBehaviour
         }
     }
 
-    // ¸ñÇ¥2: ¾ÆÀÌÅÛÀ» ¸Ô¾ú´Ù¸é, ½ºÅ³ ·¹º§ÀÌ ¿Ã¶ó°£´Ù.
+    // ëª©í‘œ2: ì•„ì´í…œì„ ë¨¹ì—ˆë‹¤ë©´, ìŠ¤í‚¬ ë ˆë²¨ì´ ì˜¬ë¼ê°„ë‹¤.
     private void OnTriggerEnter(Collider other)
     {
-        // ´Ü°è1. ¾ÆÀÌÅÛÀ» ¸Ô¾ú´Ù¸é
+        // ë‹¨ê³„1. ì•„ì´í…œì„ ë¨¹ì—ˆë‹¤ë©´
         if (other.gameObject.tag == "Item")
         {
-            // ´Ü°è2. ½ºÅ³·¹º§ÀÌ 1 ¿Ã¶ó°£´Ù.(ÃÖ´ë ½ºÅ³·¹º§À» ÃÊ°úÇÏ±â Àü±îÁö)
+            // ë‹¨ê³„2. ìŠ¤í‚¬ë ˆë²¨ì´ 1 ì˜¬ë¼ê°„ë‹¤.(ìµœëŒ€ ìŠ¤í‚¬ë ˆë²¨ì„ ì´ˆê³¼í•˜ê¸° ì „ê¹Œì§€)
             if(skillLevel < 3)
                 skillLevel++;
 
-            // ´Ü°è3. ¾ÆÀÌÅÛÀ» ÆÄ±«ÇÑ´Ù.
+            // ë‹¨ê³„3. ì•„ì´í…œì„ íŒŒê´´í•œë‹¤.
             Destroy(other.gameObject);
         }
     }

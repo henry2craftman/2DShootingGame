@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-// ¸ñÇ¥: Æ¯Á¤ ½Ã°£¿¡ ÇÑ¹ø¾¿ ÃÑ¾ËÀ» ¸¸µé°í ÇÃ·¹ÀÌ¾î¸¦ ÇâÇØ ¹ß»çÇÑ´Ù.
-// ÇÊ¿ä¼Ó¼º: ÃÑ¾Ë, ÇöÀç½Ã°£, Æ¯Á¤½Ã°£, ÇÃ·¹ÀÌ¾î, ÇÃ·¹ÀÌ¾î¹æÇâ
+// ëª©í‘œ: íŠ¹ì • ì‹œê°„ì— í•œë²ˆì”© ì´ì•Œì„ ë§Œë“¤ê³  í”Œë ˆì´ì–´ë¥¼ í–¥í•´ ë°œì‚¬í•œë‹¤.
+// í•„ìš”ì†ì„±: ì´ì•Œ, í˜„ì¬ì‹œê°„, íŠ¹ì •ì‹œê°„, í”Œë ˆì´ì–´, í”Œë ˆì´ì–´ë°©í–¥
 public class EnemyFire : MonoBehaviour
 {
+    // í•„ìš”ì†ì„±: ì´ì•Œ, í˜„ì¬ì‹œê°„, íŠ¹ì •ì‹œê°„, í”Œë ˆì´ì–´, í”Œë ˆì´ì–´ë°©í–¥
     public GameObject bullet;
     public GameObject gunPos;
     float currentTime;
@@ -24,16 +25,15 @@ public class EnemyFire : MonoBehaviour
     {
         if (player != null)
         {
-
             currentTime += Time.deltaTime;
 
             if (currentTime > createTime)
             {
-                // ¼ø¼­2: ÃÑ¾ËÀ» ¸¸µé°í ½Í´Ù.
+                // ìˆœì„œ2: ì´ì•Œì„ ë§Œë“¤ê³  ì‹¶ë‹¤.
                 GameObject bulletGO = Instantiate(bullet);
                 bulletGO.tag = "EnemyBullet";
 
-                // ¼ø¼­3: ÃÑ¾ËÀÇ À§Ä¡¸¦ ÇÃ·¹ÀÌ¾îÀÇ À§Ä¡·Î Á¤ÇØÁÖ°í ½Í´Ù.
+                // ìˆœì„œ3: ì´ì•Œì˜ ìœ„ì¹˜ë¥¼ í”Œë ˆì´ì–´ì˜ ìœ„ì¹˜ë¡œ ì •í•´ì£¼ê³  ì‹¶ë‹¤.
                 bulletGO.transform.position = gunPos.transform.position;
 
                 playerDir = (player.transform.position - gameObject.transform.position).normalized;

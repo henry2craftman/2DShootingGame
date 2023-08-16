@@ -6,6 +6,7 @@ using UnityEngine;
 // �ʿ�Ӽ�: BGM, ���� ����, ������ ȹ�� ���� �����Ŭ��
 public class SoundManager : MonoBehaviour
 {
+    public static SoundManager instance;
     public enum SoundName
     {
         Explosion0 = 0,
@@ -23,6 +24,14 @@ public class SoundManager : MonoBehaviour
     public List<AudioClip> explosionAudioClips = new List<AudioClip>();
     public List<AudioClip> itemAudioClips = new List<AudioClip>();
     public List<AudioClip> fireAudioClips = new List<AudioClip>();
+
+    private void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+        }
+    }
 
     private void Start()
     {
