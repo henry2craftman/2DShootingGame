@@ -57,16 +57,18 @@ public class PlayerFire : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+#if UNITY_EDITOR || UNITY_STANDALONE
         // 순서1: 입력을 받고 싶다.
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            ExcuteSkill(skillLevel);
+            ExcuteSkill();
         }
+#endif
     }
 
-    private void ExcuteSkill(int _skillLevel)
+    public void ExcuteSkill()
     {
-        switch (_skillLevel)
+        switch (skillLevel)
         {
             case 0:
                 ExcuteSkill0();
